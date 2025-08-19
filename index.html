@@ -23,32 +23,75 @@
         const { useState, useEffect } = React;
         const { createRoot } = ReactDOM;
 
-        // Data produk awal
+        // Data produk awal tanpa gambar
         const initialProducts = [
-            {
-                id: 1,
-                name: "Nasi Goreng",
-                price: 15000,
-                category: "Makanan",
-                image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAAAAAAD/4QAuRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAqADAAQAAAABAAAAAAAADgAAAAD/2wBDAAoHBwkHBgoJCAkLCwoMDxkQDw4ODx4WFxIZJCAmJSMgIyIOJCUkIx8oLCIuJCUkIx8oLCIuJCUkIx8oLCIuJCUk/2wBDAQsLCw0NDxkQDw4QDx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFxUX/2Q==",
-                stock: 50
-            },
-            {
-                id: 2,
-                name: "Es Teh Manis",
-                price: 5000,
-                category: "Minuman",
-                image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAAAAAAD/4QAuRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAqADAAQAAAABAAAAAAAADgAAAAD/2wBDAAoHBwkHBgoJCAkLCwoMDxkQDw4ODx4WFxIZJCAmJSMgIyIOJCUkIx8oLCIuJCUkIx8oLCIuJCUkIx8oLCIuJCUk/2wBDAQsLCw0NDxkQDw4QDx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFxUX/2Q==",
-                stock: 100
-            },
-            {
-                id: 3,
-                name: "CUCUR",
-                price: 10000,
-                category: "Cemilan",
-                image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAAAAAAD/4QAuRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAqADAAQAAAABAAAAAAAADgAAAAD/2wBDAAoHBwkHBgoJCAkLCwoMDxkQDw4ODx4WFxIZJCAmJSMgIyIOJCUkIx8oLCIuJCUkIx8oLCIuJCUkIx8oLCIuJCUk/2wBDAQsLCw0NDxkQDw4QDx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFx4WFxUX/2Q==",
-                stock: 50
-            }
+  // Kategori: Makanan
+  { "id": 1, "name": "Bakso Sapi", "price": 10000, "category": "Makanan", "stock": 100 },
+  { "id": 2, "name": "Kari Lontong Tahu", "price": 10000, "category": "Makanan", "stock": 100 },
+  { "id": 3, "name": "Putu Sokko Beras Ketan", "price": 10000, "category": "Makanan", "stock": 100 },
+  { "id": 4, "name": "Nasi Goreng Spesial", "price": 15000, "category": "Makanan", "stock": 100 },
+  { "id": 5, "name": "Nasi Goreng Biasa", "price": 10000, "category": "Makanan", "stock": 100 },
+  { "id": 6, "name": "Nasi Ikan Bakar (Katamba)", "price": 25000, "category": "Makanan", "stock": 100 },
+  { "id": 7, "name": "Nasi Ikan Bakar (Bubara)", "price": 25000, "category": "Makanan", "stock": 100 },
+  { "id": 8, "name": "Nasi Ikan Bakar (Katombo)", "price": 15000, "category": "Makanan", "stock": 100 },
+  { "id": 9, "name": "Nasi Ikan Bakar (Bandeng)", "price": 15000, "category": "Makanan", "stock": 100 },
+  { "id": 10, "name": "Ikan Bandeng Presto 1/2 Ekor", "price": 5000, "category": "Makanan", "stock": 100 },
+  { "id": 11, "name": "Ikan Bandeng Presto 1 Ekor", "price": 10000, "category": "Makanan", "stock": 100 },
+  { "id": 12, "name": "Gado-Gado (Tanpa Telur)", "price": 12000, "category": "Makanan", "stock": 100 },
+  { "id": 13, "name": "Gado-Gado (Pakai Telur)", "price": 15000, "category": "Makanan", "stock": 100 },
+  { "id": 14, "name": "Soto Ayam (Tanpa Telur)", "price": 12000, "category": "Makanan", "stock": 100 },
+  { "id": 15, "name": "Soto Ayam (Pakai Telur)", "price": 15000, "category": "Makanan", "stock": 100 },
+  { "id": 16, "name": "Nasi Lalapan (Ayam)", "price": 20000, "category": "Makanan", "stock": 100 },
+  { "id": 17, "name": "Nasi Lalapan (Tahu)", "price": 15000, "category": "Makanan", "stock": 100 },
+  { "id": 18, "name": "Nasi Lalapan (Tahu Tempe)", "price": 15000, "category": "Makanan", "stock": 100 },
+  { "id": 19, "name": "Nasi Lalapan (Tempe)", "price": 15000, "category": "Makanan", "stock": 100 },
+  { "id": 20, "name": "Mi Goreng Spesial", "price": 10000, "category": "Makanan", "stock": 100 },
+  { "id": 21, "name": "Nasi Kuning (Ayam)", "price": 10000, "category": "Makanan", "stock": 100 },
+  { "id": 22, "name": "Nasi Kuning (Ikan)", "price": 10000, "category": "Makanan", "stock": 100 },
+  { "id": 23, "name": "Nasi Kuning (Telur)", "price": 10000, "category": "Makanan", "stock": 100 },
+  { "id": 24, "name": "Ambal Ikan", "price": 10000, "category": "Makanan", "stock": 100 },
+
+  // Kategori: Cemilan
+  { "id": 25, "name": "Banana Crispy (FLA COKLAT + TOPING SERUTAN COKLAT)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 26, "name": "Banana Crispy (FLA COKLAT + TOPING SERUTAN KEJU)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 27, "name": "Banana Crispy (FLA STRAWBERRY + TOPING SERUTAN COKLAT)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 28, "name": "Banana Crispy (FLA STRAWBERRY + TOPING SERUTAN KEJU)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 29, "name": "Banana Crispy (FLA TIRAMISU + TOPING SERUTAN COKLAT)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 30, "name": "Banana Crispy (FLA TIRAMISU + TOPING SERUTAN KEJU)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 31, "name": "Banana Roll (FLA COKLAT + TOPING SERUTAN COKLAT)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 32, "name": "Banana Roll (FLA COKLAT + TOPING SERUTAN KEJU)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 33, "name": "Banana Roll (FLA STRAWBERRY + TOPING SERUTAN COKLAT)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 34, "name": "Banana Roll (FLA STRAWBERRY + TOPING SERUTAN KEJU)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 35, "name": "Banana Roll (FLA TIRAMISU + TOPING SERUTAN COKLAT)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 36, "name": "Banana Roll (FLA TIRAMISU + TOPING SERUTAN KEJU)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 37, "name": "Cucur", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 38, "name": "Pisang Goreng Kembung (FLA COKLAT + TOPING SERUTAN COKLAT)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 39, "name": "Pisang Goreng Kembung (FLA COKLAT + TOPING SERUTAN KEJU)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 40, "name": "Pisang Goreng Kembung (FLA STRAWBERRY + TOPING SERUTAN COKLAT)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 41, "name": "Pisang Goreng Kembung (FLA STRAWBERRY + TOPING SERUTAN KEJU)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 42, "name": "Pisang Goreng Kembung (FLA TIRAMISU + TOPING SERUTAN COKLAT)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 43, "name": "Pisang Goreng Kembung (FLA TIRAMISU + TOPING SERUTAN KEJU)", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 44, "name": "Onde-Onde Jawa", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 45, "name": "Surabeng", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 46, "name": "Wingko G4", "price": 10000, "category": "Cemilan", "stock": 100 },
+  { "id": 47, "name": "Tetu Nipa", "price": 10000, "category": "Cemilan", "stock": 100 },
+
+  // Kategori: Minuman
+  { "id": 48, "name": "Minuman Aneka Rempah Nusantara", "price": 3000, "category": "Minuman", "stock": 100 },
+  { "id": 49, "name": "Minuman Aneka Rempah Madu + Susu Kambing Etawa", "price": 15000, "category": "Minuman", "stock": 100 },
+  { "id": 50, "name": "Jus Lidah Buaya", "price": 10000, "category": "Minuman", "stock": 100 },
+  { "id": 51, "name": "Jus Buah Naga", "price": 10000, "category": "Minuman", "stock": 100 },
+  { "id": 52, "name": "Jus Jeruk", "price": 10000, "category": "Minuman", "stock": 100 },
+  { "id": 53, "name": "Jus Alpukat", "price": 10000, "category": "Minuman", "stock": 100 },
+  { "id": 54, "name": "Ice Stiky Milk Coklat", "price": 5000, "category": "Minuman", "stock": 100 },
+  { "id": 55, "name": "Ice Stiky Milk Cappucino", "price": 5000, "category": "Minuman", "stock": 100 },
+  { "id": 56, "name": "Ice Stiky Milk Melon", "price": 5000, "category": "Minuman", "stock": 100 },
+  { "id": 57, "name": "Ice Stiky Milk Avocado", "price": 5000, "category": "Minuman", "stock": 100 },
+  { "id": 58, "name": "Kopi O'", "price": 5000, "category": "Minuman", "stock": 100 },
+  { "id": 59, "name": "Kopi Jahe", "price": 5000, "category": "Minuman", "stock": 100 },
+  { "id": 60, "name": "Kopi Susu", "price": 5000, "category": "Minuman", "stock": 100 },
+  { "id": 61, "name": "Teh O'", "price": 5000, "category": "Minuman", "stock": 100 },
+  { "id": 62, "name": "Sarabba", "price": 5000, "category": "Minuman", "stock": 100 }
         ];
 
         // Komponen Splash Screen
@@ -74,7 +117,7 @@
             const handleLogin = () => {
                 if (username === 'admin' && password === 'putricantik*') {
                     setUser({ role: 'admin', userId: 'Putri' });
-                } else if (username === 'kasir1' && password === 'kasirunit1') {
+                } else if (username === 'kasir1' && password === 'lianigurl') {
                     setUser({ role: 'kasir', userId: 'April' });
                 } else if (username === 'kasir2' && password === 'kasirunit2') {
                     setUser({ role: 'kasir', userId: 'Agung' });
@@ -119,28 +162,18 @@
             const [name, setName] = useState('');
             const [price, setPrice] = useState('');
             const [category, setCategory] = useState('');
-            const [image, setImage] = useState('');
             const [stock, setStock] = useState('');
             const [newCategory, setNewCategory] = useState('');
             const [editId, setEditId] = useState(null);
 
-            const handleImageUpload = (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onloadend = () => setImage(reader.result);
-                    reader.readAsDataURL(file);
-                }
-            };
-
             const addProduct = () => {
-                if (name && price && category && stock && image) {
+                if (name && price && category && stock) {
                     const updatedProducts = editId
-                        ? products.map(p => (p.id === editId ? { id: editId, name, price: parseFloat(price), category, image, stock: parseInt(stock) } : p))
-                        : [...products, { id: Date.now(), name, price: parseFloat(price), category, image, stock: parseInt(stock) }];
+                        ? products.map(p => (p.id === editId ? { id: editId, name, price: parseFloat(price), category, stock: parseInt(stock) } : p))
+                        : [...products, { id: Date.now(), name, price: parseFloat(price), category, stock: parseInt(stock) }];
                     setProducts(updatedProducts);
                     localStorage.setItem('products', JSON.stringify(updatedProducts));
-                    setName(''); setPrice(''); setCategory(''); setImage(''); setStock(''); setEditId(null);
+                    setName(''); setPrice(''); setCategory(''); setStock(''); setEditId(null);
                 }
             };
 
@@ -154,7 +187,7 @@
             };
 
             const editProduct = (product) => {
-                setName(product.name); setPrice(product.price); setCategory(product.category); setImage(product.image); setStock(product.stock); setEditId(product.id);
+                setName(product.name); setPrice(product.price); setCategory(product.category); setStock(product.stock); setEditId(product.id);
             };
 
             const deleteProduct = (id) => {
@@ -169,7 +202,6 @@
                     <div className="mb-4 flex flex-col sm:flex-row gap-2">
                         <input type="text" placeholder="Nama Produk" value={name} onChange={(e) => setName(e.target.value)} className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-poppins" />
                         <input type="number" placeholder="Harga" value={price} onChange={(e) => setPrice(e.target.value)} className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-poppins" />
-                        <input type="file" accept="image/*" onChange={handleImageUpload} className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-poppins" />
                         <input type="number" placeholder="Stok" value={stock} onChange={(e) => setStock(e.target.value)} className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-poppins" />
                         <select value={category} onChange={(e) => setCategory(e.target.value)} className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-poppins">
                             <option value="" className="font-poppins">Pilih Kategori</option>
@@ -183,10 +215,9 @@
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full border-collapse">
-                            <thead><tr className="bg-gray-200"><th className="border p-2 text-left text-gray-800 font-poppins">Gambar</th><th className="border p-2 text-left text-gray-800 font-poppins">Nama</th><th className="border p-2 text-left text-gray-800 font-poppins">Harga</th><th className="border p-2 text-left text-gray-800 font-poppins">Stok</th><th className="border p-2 text-left text-gray-800 font-poppins">Kategori</th><th className="border p-2 text-left text-gray-800 font-poppins">Aksi</th></tr></thead>
+                            <thead><tr className="bg-gray-200"><th className="border p-2 text-left text-gray-800 font-poppins">Nama</th><th className="border p-2 text-left text-gray-800 font-poppins">Harga</th><th className="border p-2 text-left text-gray-800 font-poppins">Stok</th><th className="border p-2 text-left text-gray-800 font-poppins">Kategori</th><th className="border p-2 text-left text-gray-800 font-poppins">Aksi</th></tr></thead>
                             <tbody>{products.map(product => (
                                 <tr key={product.id} className="border">
-                                    <td className="border p-2 text-gray-800 font-poppins"><img src={product.image} alt={product.name} className="w-12 h-12 object-cover" /></td>
                                     <td className="border p-2 text-gray-800 font-poppins">{product.name}</td>
                                     <td className="border p-2 text-gray-800 font-poppins">Rp {product.price.toLocaleString()}</td>
                                     <td className="border p-2 text-gray-800 font-poppins">{product.stock}</td>
@@ -207,6 +238,8 @@
             const [paymentAmount, setPaymentAmount] = useState('');
             const [paymentMethod, setPaymentMethod] = useState('cash');
             const [errorMessage, setErrorMessage] = useState('');
+            const [discountPercent, setDiscountPercent] = useState('');
+            const [shippingCost, setShippingCost] = useState('');
 
             const addToCart = (product) => {
                 if (product.stock > 0) {
@@ -224,13 +257,27 @@
                 if (item && quantity <= item.stock) setCart(cart.map(item => item.id === id ? { ...item, quantity: parseInt(quantity) } : item));
             };
 
+            const calculateTotal = () => {
+                const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                const discountPercentValue = parseFloat(discountPercent) || 0;
+                const discountAmount = (discountPercentValue / 100) * subtotal;
+                const shipping = parseFloat(shippingCost) || 0;
+                return Math.max(0, subtotal - discountAmount + shipping);
+            };
+
+            const calculateDiscountAmount = () => {
+                const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                const discountPercentValue = parseFloat(discountPercent) || 0;
+                return (discountPercentValue / 100) * subtotal;
+            };
+
             const completeTransaction = () => {
                 if (cart.length === 0) {
                     setErrorMessage('Keranjang kosong!');
                     return;
                 }
 
-                const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                const total = calculateTotal();
                 const amount = parseFloat(paymentAmount) || 0;
 
                 if (isNaN(amount) || amount < total) {
@@ -244,17 +291,23 @@
                 });
                 setProducts(updatedProducts);
 
-                const transactionItems = cart.map(({ image, ...rest }) => rest);
+                const transactionItems = cart.map(item => ({ id: item.id, name: item.name, price: item.price, quantity: item.quantity, category: item.category }));
+                const discountPercentValue = parseFloat(discountPercent) || 0;
+                const discountAmount = calculateDiscountAmount();
+                const shipping = parseFloat(shippingCost) || 0;
                 const change = amount - total;
                 const newTransaction = { 
                     id: Date.now(), 
                     items: transactionItems, 
                     total, 
+                    discountPercent: discountPercentValue,
+                    discountAmount: discountAmount,
+                    shippingCost: shipping,
                     date: new Date(), 
                     paymentMethod, 
                     paymentAmount: amount, 
                     change,
-                    userId: user.userId // Menambahkan userId ke transaksi
+                    userId: user.userId
                 };
                 let updatedTransactions = [...transactions, newTransaction];
 
@@ -278,7 +331,7 @@
                     return;
                 }
 
-                const pdfUrl = generatePDF(newTransaction.id, cart, total, paymentMethod, amount, change, user.userId);
+                const pdfUrl = generatePDF(newTransaction.id, cart, total, discountPercentValue, discountAmount, shipping, paymentMethod, amount, change, user.userId);
                 if (pdfUrl) {
                     try {
                         console.log('Mencoba buka struk...');
@@ -299,10 +352,12 @@
 
                 setCart([]);
                 setPaymentAmount('');
+                setDiscountPercent('');
+                setShippingCost('');
                 setTimeout(() => setErrorMessage(''), 5000);
             };
 
-            const generatePDF = (transactionId, items, total, paymentMethod, paymentAmount, change, userId) => {
+            const generatePDF = (transactionId, items, total, discountPercent, discountAmount, shippingCost, paymentMethod, paymentAmount, change, userId) => {
                 if (typeof window.jspdf === 'undefined') {
                     console.error('jsPDF tidak dimuat!');
                     setErrorMessage('Gagal memuat library PDF, cek koneksi internet.');
@@ -336,7 +391,7 @@
                     doc.text(`No. Struk: ${transactionId}`, 5, 51);
                     doc.text(`Tanggal: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}`, 5, 56);
                     doc.text(`Metode: ${paymentMethod === 'qris' ? 'QRIS' : 'Tunai'}`, 5, 61);
-                    doc.text(`Kasir: ${userId}`, 5, 66); // Menambahkan nama kasir
+                    doc.text(`Kasir: ${userId}`, 5, 66);
                     doc.line(5, 70, 75, 70);
 
                     doc.autoTable({
@@ -344,7 +399,7 @@
                         head: [['No', 'Produk', 'Jml', 'Harga', 'Total']],
                         body: items.map((item, index) => [
                             index + 1,
-                            item.name.length > 15 ? item.name.substring(0, 12) + '...' : item.name,
+                            item.name, // Display full product name without truncation
                             item.quantity,
                             `${item.price.toLocaleString()}`,
                             `${(item.price * item.quantity).toLocaleString()}`
@@ -363,7 +418,7 @@
                         },
                         columnStyles: {
                             0: { cellWidth: 8, halign: 'center' },
-                            1: { cellWidth: 30 },
+                            1: { cellWidth: 30, overflow: 'linebreak' },
                             2: { cellWidth: 8, halign: 'center' },
                             3: { cellWidth: 12, halign: 'right' },
                             4: { cellWidth: 12, halign: 'right' }
@@ -375,15 +430,18 @@
                     const finalY = doc.lastAutoTable.finalY + 3;
                     doc.line(5, finalY, 75, finalY);
                     doc.setFontSize(9);
-                    doc.text(`Total: Rp ${total.toLocaleString()}`, 55, finalY + 5, { align: 'right' });
-                    doc.text(`Bayar: Rp ${paymentAmount.toLocaleString()}`, 55, finalY + 10, { align: 'right' });
-                    doc.text(`Kembali: Rp ${change.toLocaleString() || '0'}`, 55, finalY + 15, { align: 'right' });
-                    doc.line(5, finalY + 18, 75, finalY + 18);
+                    doc.text(`Subtotal: Rp ${cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString()}`, 55, finalY + 5, { align: 'right' });
+                    doc.text(`Diskon (${discountPercent}%): Rp ${discountAmount.toLocaleString()}`, 55, finalY + 10, { align: 'right' });
+                    doc.text(`Ongkir: Rp ${shippingCost.toLocaleString()}`, 55, finalY + 15, { align: 'right' });
+                    doc.text(`Total: Rp ${total.toLocaleString()}`, 55, finalY + 20, { align: 'right' });
+                    doc.text(`Bayar: Rp ${paymentAmount.toLocaleString()}`, 55, finalY + 25, { align: 'right' });
+                    doc.text(`Kembali: Rp ${change.toLocaleString() || '0'}`, 55, finalY + 30, { align: 'right' });
+                    doc.line(5, finalY + 33, 75, finalY + 33);
 
                     doc.setFontSize(8);
                     doc.setFont("Courier", "italic");
-                    doc.text('Terima Kasih', 40, finalY + 24, { align: 'center' });
-                    doc.text('Kasir Pintar by Putri', 40, finalY + 28, { align: 'center' });
+                    doc.text('Terima Kasih', 40, finalY + 39, { align: 'center' });
+                    doc.text('Kasir Pintar by Putri', 40, finalY + 43, { align: 'center' });
 
                     const pdfDataUri = doc.output('datauristring');
                     doc.save(`struk_pembelian_${transactionId}.pdf`);
@@ -398,6 +456,8 @@
             };
 
             const filteredProducts = products.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
+            const total = calculateTotal();
+            const discountAmount = calculateDiscountAmount();
 
             return (
                 <div className="p-4 sm:p-6">
@@ -415,13 +475,10 @@
                             <div className="max-h-96 overflow-y-auto">
                                 {filteredProducts.map(product => (
                                     <div key={product.id} className="border p-2 mb-2 rounded flex justify-between items-center">
-                                        <div className="flex items-center">
-                                            <img src={product.image} alt={product.name} className="w-12 h-12 object-cover mr-2" />
-                                            <div>
-                                                <p className="text-gray-800 font-poppins">{product.name}</p>
-                                                <p className="text-gray-800 font-poppins">Rp {product.price.toLocaleString()}</p>
-                                                <p className="text-gray-600 text-sm font-poppins">Stok: {product.stock}</p>
-                                            </div>
+                                        <div>
+                                            <p className="text-gray-800 font-poppins">{product.name}</p>
+                                            <p className="text-gray-800 font-poppins">Rp {product.price.toLocaleString()}</p>
+                                            <p className="text-gray-600 text-sm font-poppins">Stok: {product.stock}</p>
                                         </div>
                                         <button onClick={() => addToCart(product)} className="bg-blue-500 text-white p-1 rounded-full hover:bg-blue-600 transition-colors duration-200 font-poppins" disabled={product.stock === 0}>Tambah</button>
                                     </div>
@@ -447,7 +504,10 @@
                                     <button onClick={() => removeFromCart(item.id)} className="bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-colors duration-200 font-poppins">Hapus</button>
                                 </div>
                             ))}
-                            <p className="font-semibold text-gray-800 font-poppins">Total: Rp {cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString()}</p>
+                            <p className="font-semibold text-gray-800 font-poppins">Subtotal: Rp {cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString()}</p>
+                            <p className="font-semibold text-gray-800 font-poppins">Diskon ({discountPercent}%): Rp {discountAmount.toLocaleString()}</p>
+                            <p className="font-semibold text-gray-800 font-poppins">Ongkir: Rp {(parseFloat(shippingCost) || 0).toLocaleString()}</p>
+                            <p className="font-semibold text-gray-800 font-poppins">Total: Rp {total.toLocaleString()}</p>
                             <div className="mb-4">
                                 <label className="block text-gray-700 font-poppins">Metode Pembayaran:</label>
                                 <div className="flex gap-4 mb-2">
@@ -456,13 +516,30 @@
                                 </div>
                                 <input
                                     type="number"
+                                    placeholder="Diskon (%)"
+                                    value={discountPercent}
+                                    onChange={(e) => setDiscountPercent(e.target.value)}
+                                    className="w-full p-2 mb-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-poppins"
+                                    min="0"
+                                    max="100"
+                                />
+                                <input
+                                    type="number"
+                                    placeholder="Biaya Ongkir (Rp)"
+                                    value={shippingCost}
+                                    onChange={(e) => setShippingCost(e.target.value)}
+                                    className="w-full p-2 mb-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-poppins"
+                                    min="0"
+                                />
+                                <input
+                                    type="number"
                                     placeholder="Nominal Bayar"
                                     value={paymentAmount}
                                     onChange={(e) => setPaymentAmount(e.target.value)}
                                     className="w-full p-2 mb-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-poppins"
                                     min="0"
                                 />
-                                {paymentAmount && <p className="text-green-600 font-poppins">Kembali: Rp {((parseFloat(paymentAmount) || 0) - cart.reduce((sum, item) => sum + item.price * item.quantity, 0)).toLocaleString()}</p>}
+                                {paymentAmount && <p className="text-green-600 font-poppins">Kembali: Rp {((parseFloat(paymentAmount) || 0) - total).toLocaleString()}</p>}
                                 {errorMessage && <p className={`text-sm font-poppins ${errorMessage.includes('berhasil') ? 'text-green-500' : 'text-red-500'}`}>{errorMessage}</p>}
                             </div>
                             <button onClick={completeTransaction} className="bg-green-500 text-white p-2 rounded-full mt-4 w-full hover:bg-green-600 transition-colors duration-200 font-poppins">
@@ -542,6 +619,8 @@
                                     <th className="border p-2 text-left text-gray-800 font-poppins">Tanggal</th>
                                     {user.role === 'admin' && <th className="border p-2 text-left text-gray-800 font-poppins">Kasir</th>}
                                     <th className="border p-2 text-left text-gray-800 font-poppins">Total</th>
+                                    <th className="border p-2 text-left text-gray-800 font-poppins">Diskon</th>
+                                    <th className="border p-2 text-left text-gray-800 font-poppins">Ongkir</th>
                                     <th className="border p-2 text-left text-gray-800 font-poppins">Metode</th>
                                     <th className="border p-2 text-left text-gray-800 font-poppins">Bayar</th>
                                     <th className="border p-2 text-left text-gray-800 font-poppins">Kembali</th>
@@ -555,6 +634,8 @@
                                         <td className="border p-2 text-gray-800 font-poppins">{t.date.toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}</td>
                                         {user.role === 'admin' && <td className="border p-2 text-gray-800 font-poppins">{t.userId}</td>}
                                         <td className="border p-2 text-gray-800 font-poppins">Rp {t.total.toLocaleString()}</td>
+                                        <td className="border p-2 text-gray-800 font-poppins">{t.discountPercent}% (Rp {t.discountAmount.toLocaleString()})</td>
+                                        <td className="border p-2 text-gray-800 font-poppins">Rp {(t.shippingCost || 0).toLocaleString()}</td>
                                         <td className="border p-2 text-gray-800 font-poppins">{t.paymentMethod === 'qris' ? 'QRIS' : 'Tunai'}</td>
                                         <td className="border p-2 text-gray-800 font-poppins">Rp {t.paymentAmount.toLocaleString()}</td>
                                         <td className="border p-2 text-gray-800 font-poppins">Rp {t.change.toLocaleString()}</td>

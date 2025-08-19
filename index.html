@@ -7,7 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<<<<<<< HEAD
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+=======
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -23,6 +26,7 @@
         const { useState, useEffect } = React;
         const { createRoot } = ReactDOM;
 
+<<<<<<< HEAD
         // Data produk awal
         const initialProducts = [
             {
@@ -51,6 +55,8 @@
             }
         ];
 
+=======
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
         // Komponen Splash Screen
         const SplashScreen = ({ onComplete }) => {
             useEffect(() => {
@@ -72,12 +78,19 @@
             const [error, setError] = useState('');
 
             const handleLogin = () => {
+<<<<<<< HEAD
                 if (username === 'admin' && password === 'putricantik*') {
                     setUser({ role: 'admin', userId: 'Putri' });
                 } else if (username === 'kasir1' && password === 'kasirunit1') {
                     setUser({ role: 'kasir', userId: 'April' });
                 } else if (username === 'kasir2' && password === 'kasirunit2') {
                     setUser({ role: 'kasir', userId: 'Agung' });
+=======
+                if (username === 'admin' && password === 'putripunya') {
+                    setUser({ role: 'admin' });
+                } else if (username === 'kasir' && password === 'kasirunit1') {
+                    setUser({ role: 'kasir' });
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
                 } else {
                     setError('Username atau password salah');
                 }
@@ -201,7 +214,11 @@
         };
 
         // Komponen Transaksi Penjualan
+<<<<<<< HEAD
         const SalesTransaction = ({ products, transactions, setTransactions, setProducts, user }) => {
+=======
+        const SalesTransaction = ({ products, transactions, setTransactions, setProducts }) => {
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
             const [cart, setCart] = useState([]);
             const [search, setSearch] = useState('');
             const [paymentAmount, setPaymentAmount] = useState('');
@@ -238,12 +255,17 @@
                     return;
                 }
 
+<<<<<<< HEAD
+=======
+                // Kurangi stok
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
                 const updatedProducts = products.map(p => {
                     const cartItem = cart.find(item => item.id === p.id);
                     return cartItem ? { ...p, stock: p.stock - cartItem.quantity } : p;
                 });
                 setProducts(updatedProducts);
 
+<<<<<<< HEAD
                 const transactionItems = cart.map(({ image, ...rest }) => rest);
                 const change = amount - total;
                 const newTransaction = { 
@@ -279,6 +301,36 @@
                 }
 
                 const pdfUrl = generatePDF(newTransaction.id, cart, total, paymentMethod, amount, change, user.userId);
+=======
+                // Simpan transaksi dengan batasan dinamis
+                const change = amount - total;
+                const newTransaction = { id: Date.now(), items: [...cart], total, date: new Date(), paymentMethod, paymentAmount: amount, change };
+                let updatedTransactions = [...transactions, newTransaction];
+
+                // Batasi ukuran data untuk mencegah overflow
+                const MAX_STORAGE_SIZE = 4000000; // 4MB sebagai batas aman
+                const transactionsStr = JSON.stringify(updatedTransactions);
+                if (transactionsStr.length > MAX_STORAGE_SIZE) {
+                    const numToRemove = Math.floor((transactionsStr.length - MAX_STORAGE_SIZE) / (transactionsStr.length / updatedTransactions.length)) + 1;
+                    updatedTransactions = updatedTransactions.slice(-100 + numToRemove); // Hapus dari awal sesuai kebutuhan
+                    setErrorMessage(`Ruang penyimpanan penuh, ${numToRemove} transaksi lama dihapus untuk melanjutkan.`);
+                    localStorage.setItem('transactions', JSON.stringify(updatedTransactions));
+                }
+
+                // Simpan ke localStorage
+                try {
+                    localStorage.setItem('products', JSON.stringify(updatedProducts));
+                    localStorage.setItem('transactions', JSON.stringify(updatedTransactions));
+                    setTransactions(updatedTransactions);
+                } catch (e) {
+                    setErrorMessage('Gagal simpan transaksi, coba hapus riwayat manual.');
+                    console.error('LocalStorage error:', e);
+                    return;
+                }
+
+                // Generate dan arahkan ke struk
+                const pdfUrl = generatePDF(cart, total, paymentMethod, amount, change);
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
                 if (pdfUrl) {
                     try {
                         console.log('Mencoba buka struk...');
@@ -297,12 +349,20 @@
                     setErrorMessage('Gagal menghasilkan struk, cek file lokal struk_pembelian.pdf.');
                 }
 
+<<<<<<< HEAD
+=======
+                // Reset setelah selesai
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
                 setCart([]);
                 setPaymentAmount('');
                 setTimeout(() => setErrorMessage(''), 5000);
             };
 
+<<<<<<< HEAD
             const generatePDF = (transactionId, items, total, paymentMethod, paymentAmount, change, userId) => {
+=======
+            const generatePDF = (items, total, paymentMethod, paymentAmount, change) => {
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
                 if (typeof window.jspdf === 'undefined') {
                     console.error('jsPDF tidak dimuat!');
                     setErrorMessage('Gagal memuat library PDF, cek koneksi internet.');
@@ -312,6 +372,7 @@
                 try {
                     console.log('Memulai pembuatan PDF...');
                     const { jsPDF } = window.jspdf;
+<<<<<<< HEAD
                     const doc = new jsPDF({
                         orientation: 'portrait',
                         unit: 'mm',
@@ -387,12 +448,58 @@
 
                     const pdfDataUri = doc.output('datauristring');
                     doc.save(`struk_pembelian_${transactionId}.pdf`);
+=======
+                    const doc = new jsPDF();
+                    let yPos = 10;
+
+                    // Header Struk
+                    doc.text('UNIT USAHA TERPADU RUMAH TANGGA KULINER MERDEKA NIBANGUN RAYA', 105, yPos, { align: 'center' });
+                    yPos += 10;
+                    doc.text('DESA GINUNGGUNG, KEC. GALANG, KAB. TOLITOLI, PROV. SULAWESI TENGAH KODE POS 94561', 105, yPos, { align: 'center' });
+                    yPos += 10;
+                    doc.text('ADMIN: 0822-7162-4019 (PUTRI)', 105, yPos, { align: 'center' });
+                    yPos += 10;
+                    doc.text('----------------------------------------', 10, yPos);
+                    yPos += 10;
+
+                    // Detail Transaksi
+                    doc.text(`Tanggal: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}`, 10, yPos);
+                    yPos += 10;
+                    doc.text(`Metode Pembayaran: ${paymentMethod === 'qris' ? 'QRIS' : 'Cash'}`, 10, yPos);
+                    yPos += 10;
+                    doc.text('----------------------------------------', 10, yPos);
+                    yPos += 10;
+                    items.forEach((item, index) => {
+                        doc.text(`${item.name} x${item.quantity}: Rp ${(item.price * item.quantity).toLocaleString()}`, 10, yPos);
+                        yPos += 10;
+                    });
+                    doc.text('----------------------------------------', 10, yPos);
+                    yPos += 10;
+                    doc.text(`Total: Rp ${total.toLocaleString()}`, 10, yPos);
+                    yPos += 10;
+                    doc.text(`Bayar: Rp ${paymentAmount.toLocaleString()}`, 10, yPos);
+                    yPos += 10;
+                    doc.text(`Kembali: Rp ${change.toLocaleString() || '0'}`, 10, yPos);
+                    yPos += 20;
+
+                    // Footer Struk
+                    doc.setFont("italic");
+                    doc.text('~ Kasir Pintar by Putri ~', 105, yPos, { align: 'center' });
+
+                    // Simpan dan kembalikan URL data
+                    const pdfDataUri = doc.output('datauristring');
+                    doc.save('struk_pembelian.pdf');
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
                     console.log('PDF berhasil dibuat:', pdfDataUri);
                     return pdfDataUri;
                 } catch (error) {
                     console.error('Error dalam generate PDF:', error);
                     setErrorMessage('Gagal menghasilkan struk, file disimpan lokal sebagai struk_pembelian.pdf.');
+<<<<<<< HEAD
                     doc.save('struk_pembelian.pdf');
+=======
+                    doc.save('struk_pembelian.pdf'); // Fallback simpan
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
                     return null;
                 }
             };
@@ -451,7 +558,11 @@
                             <div className="mb-4">
                                 <label className="block text-gray-700 font-poppins">Metode Pembayaran:</label>
                                 <div className="flex gap-4 mb-2">
+<<<<<<< HEAD
                                     <label className="flex items-center font-poppins"><input type="radio" value="cash" checked={paymentMethod === 'cash'} onChange={(e) => setPaymentMethod(e.target.value)} className="mr-2" />Tunai</label>
+=======
+                                    <label className="flex items-center font-poppins"><input type="radio" value="cash" checked={paymentMethod === 'cash'} onChange={(e) => setPaymentMethod(e.target.value)} className="mr-2" />Cash</label>
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
                                     <label className="flex items-center font-poppins"><input type="radio" value="qris" checked={paymentMethod === 'qris'} onChange={(e) => setPaymentMethod(e.target.value)} className="mr-2" />QRIS</label>
                                 </div>
                                 <input
@@ -475,6 +586,7 @@
         };
 
         // Komponen Riwayat Transaksi
+<<<<<<< HEAD
         const TransactionHistory = ({ transactions, setTransactions, user }) => {
             const [activeUserTab, setActiveUserTab] = useState('all');
 
@@ -590,10 +702,47 @@
 
             const dailyRevenue = calculateRevenue(transactions, 'daily');
             const monthlyRevenue = calculateRevenue(transactions, 'monthly');
+=======
+        const TransactionHistory = ({ transactions }) => (
+            <div className="p-4 sm:p-6">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-800 font-poppins">Riwayat Transaksi</h2>
+                <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                        <thead><tr className="bg-gray-200"><th className="border p-2 text-left text-gray-800 font-poppins">ID</th><th className="border p-2 text-left text-gray-800 font-poppins">Tanggal</th><th className="border p-2 text-left text-gray-800 font-poppins">Total</th><th className="border p-2 text-left text-gray-800 font-poppins">Metode</th><th className="border p-2 text-left text-gray-800 font-poppins">Bayar</th><th className="border p-2 text-left text-gray-800 font-poppins">Kembali</th><th className="border p-2 text-left text-gray-800 font-poppins">Detail</th></tr></thead>
+                        <tbody>{transactions.map(t => (
+                            <tr key={t.id} className="border">
+                                <td className="border p-2 text-gray-800 font-poppins">{t.id}</td>
+                                <td className="border p-2 text-gray-800 font-poppins">{t.date.toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}</td>
+                                <td className="border p-2 text-gray-800 font-poppins">Rp {t.total.toLocaleString()}</td>
+                                <td className="border p-2 text-gray-800 font-poppins">{t.paymentMethod === 'qris' ? 'QRIS' : 'Cash'}</td>
+                                <td className="border p-2 text-gray-800 font-poppins">Rp {t.paymentAmount.toLocaleString()}</td>
+                                <td className="border p-2 text-gray-800 font-poppins">Rp {t.change.toLocaleString()}</td>
+                                <td className="border p-2 text-gray-800 font-poppins"><ul className="list-disc pl-4">{t.items.map(item => <li key={item.id} className="font-poppins">{item.name} x{item.quantity}</li>)}</ul></td>
+                            </tr>
+                        ))}</tbody>
+                    </table>
+                </div>
+            </div>
+        );
+
+        // Komponen Dashboard Statistik
+        const Dashboard = ({ transactions }) => {
+            const dailyRevenue = transactions.reduce((acc, t) => {
+                const date = t.date.toLocaleDateString('id-ID', { timeZone: 'Asia/Jakarta' });
+                acc[date] = (acc[date] || 0) + t.total;
+                return acc;
+            }, {});
+            const monthlyRevenue = transactions.reduce((acc, t) => {
+                const month = t.date.toLocaleString('id-ID', { month: 'long', year: 'numeric', timeZone: 'Asia/Jakarta' });
+                acc[month] = (acc[month] || 0) + t.total;
+                return acc;
+            }, {});
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
 
             return (
                 <div className="p-4 sm:p-6">
                     <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-800 font-poppins">Dashboard Statistik</h2>
+<<<<<<< HEAD
                     {user.role === 'admin' ? (
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
@@ -643,6 +792,12 @@
                             </div>
                         </div>
                     )}
+=======
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div><h3 className="text-lg font-medium mb-2 text-gray-800 font-poppins">Pendapatan Harian</h3>{Object.entries(dailyRevenue).map(([date, total]) => <p key={date} className="text-gray-800 font-poppins">{date}: Rp {total.toLocaleString()}</p>)}</div>
+                        <div><h3 className="text-lg font-medium mb-2 text-gray-800 font-poppins">Pendapatan Bulanan</h3>{Object.entries(monthlyRevenue).map(([month, total]) => <p key={month} className="text-gray-800 font-poppins">{month}: Rp {total.toLocaleString()}</p>)}</div>
+                    </div>
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
                 </div>
             );
         };
@@ -651,6 +806,7 @@
         const App = () => {
             const [user, setUser] = useState(null);
             const [showSplash, setShowSplash] = useState(true);
+<<<<<<< HEAD
             const [products, setProducts] = useState(() => {
                 const storedProducts = JSON.parse(localStorage.getItem('products') || '[]');
                 if (storedProducts.length === 0) {
@@ -669,6 +825,11 @@
                 }
                 return storedCategories;
             });
+=======
+            const [products, setProducts] = useState(() => JSON.parse(localStorage.getItem('products') || '[]'));
+            const [transactions, setTransactions] = useState(() => JSON.parse(localStorage.getItem('transactions') || '[]').map(t => ({ ...t, date: new Date(t.date) })));
+            const [categories, setCategories] = useState(() => JSON.parse(localStorage.getItem('categories') || '[]'));
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
             const [activeTab, setActiveTab] = useState('dashboard');
 
             if (showSplash) return <SplashScreen onComplete={() => setShowSplash(false)} />;
@@ -677,6 +838,7 @@
             return (
                 <div className="min-h-screen flex flex-col font-poppins">
                     <nav className="bg-blue-600 text-white p-4 flex flex-col sm:flex-row justify-between items-center">
+<<<<<<< HEAD
                         <div className="flex items-center mb-2 sm:mb-0">
                             <img src="LOGO.png" alt="Logo Kasir Pintar" className="w-10 sm:w-12 mr-2" />
                             <h1 className="text-lg sm:text-xl font-semibold font-poppins">Kasir Pintar</h1>
@@ -685,6 +847,10 @@
                             <span className="mr-4 font-poppins">Selamat datang, {user.userId}</span>
                             <button onClick={() => setUser(null)} className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors duration-200 font-poppins">Logout</button>
                         </div>
+=======
+                        <div className="flex items-center mb-2 sm:mb-0"><img src="LOGO.png" alt="Logo Kasir Pintar" className="w-10 sm:w-12 mr-2" /><h1 className="text-lg sm:text-xl font-semibold font-poppins">Kasir Pintar</h1></div>
+                        <div><button onClick={() => setUser(null)} className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors duration-200 font-poppins">Logout</button></div>
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
                     </nav>
                     <div className="flex flex-col sm:flex-row flex-1">
                         <div className="w-full sm:w-64 bg-gray-200 p-4">
@@ -694,10 +860,17 @@
                             <button onClick={() => setActiveTab('history')} className={`w-full p-2 mb-2 rounded text-gray-800 ${activeTab === 'history' ? 'bg-blue-500 text-white' : 'bg-gray-300 hover:bg-gray-400 transition-colors duration-200'} font-poppins`}>Riwayat Transaksi</button>
                         </div>
                         <div className="flex-1 p-4 sm:p-6 overflow-x-auto">
+<<<<<<< HEAD
                             {activeTab === 'dashboard' && <Dashboard transactions={transactions} user={user} />}
                             {activeTab === 'transaction' && <SalesTransaction products={products} transactions={transactions} setTransactions={setTransactions} setProducts={setProducts} user={user} />}
                             {activeTab === 'products' && user.role === 'admin' && <ProductManagement products={products} setProducts={setProducts} categories={categories} setCategories={setCategories} />}
                             {activeTab === 'history' && <TransactionHistory transactions={transactions} setTransactions={setTransactions} user={user} />}
+=======
+                            {activeTab === 'dashboard' && <Dashboard transactions={transactions} />}
+                            {activeTab === 'transaction' && <SalesTransaction products={products} transactions={transactions} setTransactions={setTransactions} setProducts={setProducts} />}
+                            {activeTab === 'products' && user.role === 'admin' && <ProductManagement products={products} setProducts={setProducts} categories={categories} setCategories={setCategories} />}
+                            {activeTab === 'history' && <TransactionHistory transactions={transactions} />}
+>>>>>>> 552b37afd426b82f5adfe9f627cb6bc1eec86fc9
                         </div>
                     </div>
                     <footer className="bg-gray-800 text-white text-center p-2 text-sm font-poppins">© 2025 Kasir Pintar by Putri</footer>

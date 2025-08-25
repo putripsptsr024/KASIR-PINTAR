@@ -660,7 +660,7 @@
         // Komponen Dashboard Statistik
         const Dashboard = ({ transactions, user }) => {
             const calculateRevenue = (trans, period) => {
-                const revenueByUser = { admin: {}, kasir1: {}, kasir2: {} };
+                const revenueByUser = { admin: {}, kasir1: {}, kasir2: {}, kasir3: {} };
                 trans.forEach(t => {
                     const key = period === 'daily'
                         ? t.date.toLocaleDateString('id-ID', { timeZone: 'Asia/Jakarta' })

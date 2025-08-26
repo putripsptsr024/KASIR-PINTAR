@@ -14,10 +14,23 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #cbebff 47%, #a1dbff 100%);
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .pattern-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23ffffff" fill-opacity="0.1" fill-rule="evenodd"%3E%3Cpath d="M0 40L40 0H20L0 20z"/%3E%3Cpath d="M40 40L0 0v20L40 20z"/%3E%3C/g%3E%3C/svg%3E');
+            z-index: -1;
         }
     </style>
 </head>
-<body class="bg-gray-100 font-poppins">
+<body class="font-poppins">
+    <div class="pattern-overlay"></div>
     <div id="root"></div>
     <script type="text/babel">
         const { useState, useEffect } = React;
@@ -26,11 +39,11 @@
         // Data produk awal tanpa gambar
         const initialProducts = [
   // Kategori: Makanan
-  { "id": 1, "name": "Bakso Sapi", "price": 10000, "category": "Makanan", "stock": 100 },
-  { "id": 2, "name": "Kari Lontong Tahu", "price": 10000, "category": "Makanan", "stock": 100 },
+  { "id": 1, "name": "Bakso Sapi", "price": 13000, "category": "Makanan", "stock": 100 },
+  { "id": 2, "name": "Kari Lontong Tahu", "price": 13000, "category": "Makanan", "stock": 100 },
   { "id": 3, "name": "Putu Sokko Beras Ketan", "price": 10000, "category": "Makanan", "stock": 100 },
   { "id": 4, "name": "Nasi Goreng Spesial", "price": 15000, "category": "Makanan", "stock": 100 },
-  { "id": 5, "name": "Nasi Goreng Biasa", "price": 10000, "category": "Makanan", "stock": 100 },
+  { "id": 5, "name": "Nasi Goreng Biasa", "price": 13000, "category": "Makanan", "stock": 100 },
   { "id": 6, "name": "Nasi Ikan Bakar (Katamba)", "price": 25000, "category": "Makanan", "stock": 100 },
   { "id": 7, "name": "Nasi Ikan Bakar (Bubara)", "price": 25000, "category": "Makanan", "stock": 100 },
   { "id": 8, "name": "Nasi Ikan Bakar (Katombo)", "price": 15000, "category": "Makanan", "stock": 100 },
@@ -102,7 +115,7 @@
             }, [onComplete]);
 
             return (
-                <div className="min-h-screen flex items-center justify-center bg-gray-100">
+                <div className="min-h-screen flex items-center justify-center">
                     <img src="LOGO.png" alt="Logo Kasir Pintar" className="w-50 sm:w-50" />
                 </div>
             );
@@ -199,7 +212,7 @@
             };
 
             return (
-                <div className="p-4 sm:p-6">
+                <div className="p-4 sm:p-6 bg-white rounded-lg shadow-md">
                     <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-800 font-poppins">Manajemen Produk</h2>
                     <div className="mb-4 flex flex-col sm:flex-row gap-2">
                         <input type="text" placeholder="Nama Produk" value={name} onChange={(e) => setName(e.target.value)} className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-poppins" />
@@ -273,6 +286,13 @@
                 return (discountPercentValue / 100) * subtotal;
             };
 
+            const generateCustomId = () => {
+                let purchaseCounter = parseInt(localStorage.getItem('purchaseCounter') || '0');
+                purchaseCounter += 1;
+                localStorage.setItem('purchaseCounter', purchaseCounter.toString());
+                return purchaseCounter.toString();
+            };
+
             const completeTransaction = () => {
                 if (cart.length === 0) {
                     setErrorMessage('Keranjang kosong!');
@@ -299,7 +319,7 @@
                 const shipping = parseFloat(shippingCost) || 0;
                 const change = amount - total;
                 const newTransaction = { 
-                    id: Date.now(), 
+                    id: generateCustomId(), 
                     items: transactionItems, 
                     total, 
                     discountPercent: discountPercentValue,
@@ -401,7 +421,7 @@
                         head: [['No', 'Produk', 'Jml', 'Harga', 'Total']],
                         body: items.map((item, index) => [
                             index + 1,
-                            item.name, // Display full product name without truncation
+                            item.name,
                             item.quantity,
                             `${item.price.toLocaleString()}`,
                             `${(item.price * item.quantity).toLocaleString()}`
@@ -462,7 +482,7 @@
             const discountAmount = calculateDiscountAmount();
 
             return (
-                <div className="p-4 sm:p-6">
+                <div className="p-4 sm:p-6 bg-white rounded-lg shadow-md">
                     <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-800 font-poppins">Transaksi Penjualan</h2>
                     <input
                         type="text"
@@ -476,7 +496,7 @@
                             <h3 className="text-lg font-medium mb-2 text-gray-800 font-poppins">Produk</h3>
                             <div className="max-h-96 overflow-y-auto">
                                 {filteredProducts.map(product => (
-                                    <div key={product.id} className="border p-2 mb-2 rounded flex justify-between items-center">
+                                    <div key={product.id} className="border p-2 mb-2 rounded flex justify-between items-center bg-gray-50">
                                         <div>
                                             <p className="text-gray-800 font-poppins">{product.name}</p>
                                             <p className="text-gray-800 font-poppins">Rp {product.price.toLocaleString()}</p>
@@ -490,7 +510,7 @@
                         <div>
                             <h3 className="text-lg font-medium mb-2 text-gray-800 font-poppins">Keranjang</h3>
                             {cart.map(item => (
-                                <div key={item.id} className="border p-2 mb-2 rounded flex justify-between items-center">
+                                <div key={item.id} className="border p-2 mb-2 rounded flex justify-between items-center bg-gray-50">
                                     <div>
                                         <p className="text-gray-800 font-poppins">{item.name}</p>
                                         <p className="text-gray-800 font-poppins">Rp {(item.price * item.quantity).toLocaleString()}</p>
@@ -562,6 +582,7 @@
                     if (userId === 'all') {
                         setTransactions([]);
                         localStorage.setItem('transactions', JSON.stringify([]));
+                        localStorage.setItem('purchaseCounter', '0'); // Reset counter
                     } else {
                         const updatedTransactions = transactions.filter(t => t.userId !== userId);
                         setTransactions(updatedTransactions);
@@ -571,19 +592,116 @@
                 }
             };
 
+            const generateTransactionHistoryPDF = () => {
+                if (typeof window.jspdf === 'undefined') {
+                    console.error('jsPDF tidak dimuat!');
+                    return;
+                }
+
+                try {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF({
+                        orientation: 'landscape',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+
+                    doc.setFont("Courier", "normal");
+                    doc.setFontSize(14);
+                    doc.text('Riwayat Transaksi - Kasir Pintar', 148.5, 15, { align: 'center' });
+                    doc.setFontSize(10);
+                    doc.text('UNIT USAHA TERPADU', 148.5, 22, { align: 'center' });
+                    doc.text('RUMAH TANGGA KULINER', 148.5, 27, { align: 'center' });
+                    doc.text('MERDEKA NIBANGUN RAYA', 148.5, 32, { align: 'center' });
+                    doc.text('Desa Ginunggung, Kec. Galang', 148.5, 37, { align: 'center' });
+                    doc.text('Kab. Tolitoli, Prov. Sulawesi Tengah', 148.5, 42, { align: 'center' });
+                    doc.text('Kode Pos 94561', 148.5, 47, { align: 'center' });
+                    doc.setLineWidth(0.3);
+                    doc.line(10, 50, 287, 50);
+
+                    const filteredTransactions = user.role === 'admin' && activeUserTab !== 'all'
+                        ? transactions.filter(t => t.userId === activeUserTab)
+                        : transactions;
+
+                    const totalRevenue = filteredTransactions.reduce((sum, t) => sum + t.total, 0);
+
+                    doc.autoTable({
+                        startY: 55,
+                        head: [['ID', 'Tanggal', user.role === 'admin' ? 'Kasir' : '', 'Total', 'Diskon', 'Ongkir', 'Metode', 'Bayar', 'Kembali', 'Detail']],
+                        body: filteredTransactions.map(t => [
+                            t.id,
+                            t.date.toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
+                            user.role === 'admin' ? t.userId : '',
+                            `Rp ${t.total.toLocaleString()}`,
+                            `${t.discountPercent}% (Rp ${t.discountAmount.toLocaleString()})`,
+                            `Rp ${(t.shippingCost || 0).toLocaleString()}`,
+                            t.paymentMethod === 'qris' ? 'QRIS' : 'Tunai',
+                            `Rp ${t.paymentAmount.toLocaleString()}`,
+                            `Rp ${t.change.toLocaleString()}`,
+                            t.items.map(item => `${item.name} x${item.quantity}`).join(', ')
+                        ]),
+                        styles: { 
+                            font: 'Courier', 
+                            fontSize: 8, 
+                            cellPadding: 2, 
+                            overflow: 'linebreak' 
+                        },
+                        headStyles: { 
+                            fillColor: [200, 200, 200], 
+                            textColor: [0, 0, 0], 
+                            fontStyle: 'bold',
+                            halign: 'center'
+                        },
+                        columnStyles: {
+                            0: { cellWidth: 10 }, // Reduced width for numeric ID
+                            1: { cellWidth: 30 },
+                            2: user.role === 'admin' ? { cellWidth: 20 } : { cellWidth: 0, halign: 'hidden' },
+                            3: { cellWidth: 20, halign: 'right' },
+                            4: { cellWidth: 25, halign: 'right' },
+                            5: { cellWidth: 20, halign: 'right' },
+                            6: { cellWidth: 15 },
+                            7: { cellWidth: 20, halign: 'right' },
+                            8: { cellWidth: 20, halign: 'right' },
+                            9: { cellWidth: 90, overflow: 'linebreak' }
+                        },
+                        margin: { left: 10, right: 10 },
+                        tableWidth: 277
+                    });
+
+                    const finalY = doc.lastAutoTable.finalY + 10;
+                    doc.setFontSize(10);
+                    doc.setFont("Courier", "bold");
+                    doc.text(`Total Pendapatan: Rp ${totalRevenue.toLocaleString()}`, 287, finalY, { align: 'right' });
+
+                    const pdfDataUri = doc.output('datauristring');
+                    doc.save(`riwayat_transaksi_${activeUserTab}_${Date.now()}.pdf`);
+                    const newWindow = window.open(pdfDataUri, '_blank');
+                    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+                        console.warn('Popup diblokir, file disimpan sebagai riwayat_transaksi.pdf');
+                    }
+                } catch (error) {
+                    console.error('Error dalam generate PDF riwayat:', error);
+                }
+            };
+
             const filteredTransactions = user.role === 'admin' && activeUserTab !== 'all'
                 ? transactions.filter(t => t.userId === activeUserTab)
                 : transactions;
 
             return (
-                <div className="p-4 sm:p-6">
+                <div className="p-4 sm:p-6 bg-white rounded-lg shadow-md">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 font-poppins">Riwayat Transaksi</h2>
-                        {user.role === 'admin' && (
-                            <button onClick={() => clearTransactions(activeUserTab)} className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors duration-200 font-poppins">
-                                Hapus Riwayat {activeUserTab === 'all' ? 'Semua' : activeUserTab}
+                        <div className="flex gap-2">
+                            <button onClick={generateTransactionHistoryPDF} className="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition-colors duration-200 font-poppins">
+                                Cetak Riwayat
                             </button>
-                        )}
+                            {user.role === 'admin' && (
+                                <button onClick={() => clearTransactions(activeUserTab)} className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors duration-200 font-poppins">
+                                    Hapus Riwayat {activeUserTab === 'all' ? 'Semua' : activeUserTab}
+                                </button>
+                            )}
+                        </div>
                     </div>
                     {user.role === 'admin' && (
                         <div className="mb-4 flex gap-2">
@@ -594,22 +712,28 @@
                                 Semua
                             </button>
                             <button
-                                onClick={() => setActiveUserTab('kasir1')}
-                                className={`p-2 rounded ${activeUserTab === 'kasir1' ? 'bg-blue-500 text-white' : 'bg-gray-300 hover:bg-gray-400'} font-poppins`}
+                                onClick={() => setActiveUserTab('Putri')}
+                                className={`p-2 rounded ${activeUserTab === 'Putri' ? 'bg-blue-500 text-white' : 'bg-gray-300 hover:bg-gray-400'} font-poppins`}
                             >
-                                Kasir 1
+                                Putri
                             </button>
                             <button
-                                onClick={() => setActiveUserTab('kasir2')}
-                                className={`p-2 rounded ${activeUserTab === 'kasir2' ? 'bg-blue-500 text-white' : 'bg-gray-300 hover:bg-gray-400'} font-poppins`}
+                                onClick={() => setActiveUserTab('April')}
+                                className={`p-2 rounded ${activeUserTab === 'April' ? 'bg-blue-500 text-white' : 'bg-gray-300 hover:bg-gray-400'} font-poppins`}
                             >
-                                Kasir 2
+                                April
                             </button>
                             <button
-                                onClick={() => setActiveUserTab('admin')}
-                                className={`p-2 rounded ${activeUserTab === 'admin' ? 'bg-blue-500 text-white' : 'bg-gray-300 hover:bg-gray-400'} font-poppins`}
+                                onClick={() => setActiveUserTab('Agung')}
+                                className={`p-2 rounded ${activeUserTab === 'Agung' ? 'bg-blue-500 text-white' : 'bg-gray-300 hover:bg-gray-400'} font-poppins`}
                             >
-                                Admin
+                                Agung
+                            </button>
+                            <button
+                                onClick={() => setActiveUserTab('Kelfin')}
+                                className={`p-2 rounded ${activeUserTab === 'Kelfin' ? 'bg-blue-500 text-white' : 'bg-gray-300 hover:bg-gray-400'} font-poppins`}
+                            >
+                                Kelfin
                             </button>
                         </div>
                     )}
@@ -660,7 +784,7 @@
         // Komponen Dashboard Statistik
         const Dashboard = ({ transactions, user }) => {
             const calculateRevenue = (trans, period) => {
-                const revenueByUser = { admin: {}, kasir1: {}, kasir2: {}, kasir3: {} };
+                const revenueByUser = { Putri: {}, April: {}, Agung: {}, Kelfin: {} };
                 trans.forEach(t => {
                     const key = period === 'daily'
                         ? t.date.toLocaleDateString('id-ID', { timeZone: 'Asia/Jakarta' })
@@ -675,37 +799,45 @@
             const monthlyRevenue = calculateRevenue(transactions, 'monthly');
 
             return (
-                <div className="p-4 sm:p-6">
+                <div className="p-4 sm:p-6 bg-white rounded-lg shadow-md">
                     <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-800 font-poppins">Dashboard Statistik</h2>
                     {user.role === 'admin' ? (
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
                                 <h3 className="text-lg font-medium mb-2 text-gray-800 font-poppins">Pendapatan Harian</h3>
-                                <h4 className="text-md font-medium mb-1 text-gray-700 font-poppins">Admin</h4>
-                                {Object.entries(dailyRevenue.admin || {}).map(([date, total]) => (
+                                <h4 className="text-md font-medium mb-1 text-gray-700 font-poppins">Putri</h4>
+                                {Object.entries(dailyRevenue.Putri || {}).map(([date, total]) => (
                                     <p key={date} className="text-gray-800 font-poppins">{date}: Rp {total.toLocaleString()}</p>
                                 ))}
-                                <h4 className="text-md font-medium mb-1 mt-4 text-gray-700 font-poppins">Kasir 1</h4>
-                                {Object.entries(dailyRevenue.kasir1 || {}).map(([date, total]) => (
+                                <h4 className="text-md font-medium mb-1 mt-4 text-gray-700 font-poppins">April</h4>
+                                {Object.entries(dailyRevenue.April || {}).map(([date, total]) => (
                                     <p key={date} className="text-gray-800 font-poppins">{date}: Rp {total.toLocaleString()}</p>
                                 ))}
-                                <h4 className="text-md font-medium mb-1 mt-4 text-gray-700 font-poppins">Kasir Lainnya</h4>
-                                {Object.entries(dailyRevenue.kasir2 || {}).map(([date, total]) => (
+                                <h4 className="text-md font-medium mb-1 mt-4 text-gray-700 font-poppins">Agung</h4>
+                                {Object.entries(dailyRevenue.Agung || {}).map(([date, total]) => (
+                                    <p key={date} className="text-gray-800 font-poppins">{date}: Rp {total.toLocaleString()}</p>
+                                ))}
+                                <h4 className="text-md font-medium mb-1 mt-4 text-gray-700 font-poppins">Kelfin</h4>
+                                {Object.entries(dailyRevenue.Kelfin || {}).map(([date, total]) => (
                                     <p key={date} className="text-gray-800 font-poppins">{date}: Rp {total.toLocaleString()}</p>
                                 ))}
                             </div>
                             <div>
                                 <h3 className="text-lg font-medium mb-2 text-gray-800 font-poppins">Pendapatan Bulanan</h3>
-                                <h4 className="text-md font-medium mb-1 text-gray-700 font-poppins">Admin</h4>
-                                {Object.entries(monthlyRevenue.admin || {}).map(([month, total]) => (
+                                <h4 className="text-md font-medium mb-1 text-gray-700 font-poppins">Putri</h4>
+                                {Object.entries(monthlyRevenue.Putri || {}).map(([month, total]) => (
                                     <p key={month} className="text-gray-800 font-poppins">{month}: Rp {total.toLocaleString()}</p>
                                 ))}
-                                <h4 className="text-md font-medium mb-1 mt-4 text-gray-700 font-poppins">Kasir 1</h4>
-                                {Object.entries(monthlyRevenue.kasir1 || {}).map(([month, total]) => (
+                                <h4 className="text-md font-medium mb-1 mt-4 text-gray-700 font-poppins">April</h4>
+                                {Object.entries(monthlyRevenue.April || {}).map(([month, total]) => (
                                     <p key={month} className="text-gray-800 font-poppins">{month}: Rp {total.toLocaleString()}</p>
                                 ))}
-                                <h4 className="text-md font-medium mb-1 mt-4 text-gray-700 font-poppins">Kasir Lainnya</h4>
-                                {Object.entries(monthlyRevenue.kasir2 || {}).map(([month, total]) => (
+                                <h4 className="text-md font-medium mb-1 mt-4 text-gray-700 font-poppins">Agung</h4>
+                                {Object.entries(monthlyRevenue.Agung || {}).map(([month, total]) => (
+                                    <p key={month} className="text-gray-800 font-poppins">{month}: Rp {total.toLocaleString()}</p>
+                                ))}
+                                <h4 className="text-md font-medium mb-1 mt-4 text-gray-700 font-poppins">Kelfin</h4>
+                                {Object.entries(monthlyRevenue.Kelfin || {}).map(([month, total]) => (
                                     <p key={month} className="text-gray-800 font-poppins">{month}: Rp {total.toLocaleString()}</p>
                                 ))}
                             </div>
@@ -759,7 +891,7 @@
 
             return (
                 <div className="min-h-screen flex flex-col font-poppins">
-                    <nav className="bg-blue-600 text-white p-4 flex flex-col sm:flex-row justify-between items-center">
+                    <nav className="bg-blue-600 text-white p-4 flex flex-col sm:flex-row justify-between items-center shadow-md">
                         <div className="flex items-center mb-2 sm:mb-0">
                             <img src="LOGO.png" alt="Logo Kasir Pintar" className="w-10 sm:w-12 mr-2" />
                             <h1 className="text-lg sm:text-xl font-semibold font-poppins">Kasir Pintar</h1>
@@ -770,7 +902,7 @@
                         </div>
                     </nav>
                     <div className="flex flex-col sm:flex-row flex-1">
-                        <div className="w-full sm:w-64 bg-gray-200 p-4">
+                        <div className="w-full sm:w-64 bg-gray-200 p-4 shadow-md">
                             <button onClick={() => setActiveTab('dashboard')} className={`w-full p-2 mb-2 rounded text-gray-800 ${activeTab === 'dashboard' ? 'bg-blue-500 text-white' : 'bg-gray-300 hover:bg-gray-400 transition-colors duration-200'} font-poppins`}>Dashboard</button>
                             <button onClick={() => setActiveTab('transaction')} className={`w-full p-2 mb-2 rounded text-gray-800 ${activeTab === 'transaction' ? 'bg-blue-500 text-white' : 'bg-gray-300 hover:bg-gray-400 transition-colors duration-200'} font-poppins`}>Transaksi</button>
                             {user.role === 'admin' && <button onClick={() => setActiveTab('products')} className={`w-full p-2 mb-2 rounded text-gray-800 ${activeTab === 'products' ? 'bg-blue-500 text-white' : 'bg-gray-300 hover:bg-gray-400 transition-colors duration-200'} font-poppins`}>Manajemen Produk</button>}
